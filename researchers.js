@@ -185,7 +185,6 @@ function SaveResearcher(){
   };
 
   if (id != null && id > 0) {
-    // Call PUT method - method requires clientModel & ID route is /api/clients/{id}
     fetch(researchersroute + `/${id}`, {
       method: 'PUT',
       headers: {
@@ -204,10 +203,8 @@ function SaveResearcher(){
     })
     .catch(error => {
       console.error(error);
-      // Handle error appropriately, e.g., show error message to user
     });
   } else {
-    // Call POST method - method requires clientModel route is /api/clients
     fetch(researchersroute, {
       method: 'POST',
       headers: {
@@ -226,7 +223,6 @@ function SaveResearcher(){
     })
     .catch(error => {
       console.error(error);
-      // Handle error appropriately, e.g., show error message to user
     });
   }
 }
@@ -272,7 +268,7 @@ function DeleteResearcher() {
   let searchFieldInput = document.getElementById("researcherSearchFieldInput");
   let researcherRoleId = document.getElementById("researcherRoleId");   
     let body = {
-      researcherRoleId: researcherRoleId.value,// levo : atribut na backendu desno atribut na frontu//
+      researcherRoleId: researcherRoleId.value,
       searchTerm: searchFieldInput.value
     };
 
