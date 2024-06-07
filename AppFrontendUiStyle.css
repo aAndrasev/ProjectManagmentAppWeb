@@ -1,0 +1,63 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.d-flex {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+#side-menu {
+    width: 250px; /* Adjust the width as needed */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #f8f9fa; /* Adjust the background color as needed */
+    border-right: 1px solid #dee2e6;
+    overflow-y: auto; /* Add this if the menu items exceed the viewport height */
+}
+#side-menu ul li a {
+    text-decoration: none;
+    color: #d1d1d1;
+    font-size: 16px;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+#side-menu ul li a:hover {
+    background-color: #495057;
+    color: white;
+
+}
+.content {
+    margin-left: 250px; /* Adjusted to match the width of the side menu */
+    margin-top: 20px; /* Add space between the menu and the table */
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.table-container {
+    height: 400px; /* Replace with your desired height */
+    overflow-y: auto;
+    
+    margin-top: 20px;
+}
+
+.table {
+    width: 90%;
+    max-width: 90%;
+    table-layout: auto;
+}
