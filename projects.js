@@ -50,18 +50,22 @@ function displayProjects(projects) {
 
   let thName = document.createElement("th");
   thName.innerText = "Name";
+  thName.style.border = "2px solid black";
   let thStatus = document.createElement("th");
   thStatus.innerText = "Status";
+  thStatus.style.border = "2px solid black";
   let thStartDate = document.createElement("th");
   thStartDate.innerText = "Start Date";
+  thStartDate.style.border = "2px solid black";
   let thEndDate = document.createElement("th");
   thEndDate.innerText = "End Date";
-
+  thEndDate.style.border = "2px solid black";
   tr.append(thName, thStatus, thStartDate, thEndDate);
 
   if (jwt) {
     let thAction = document.createElement("th");
     thAction.innerText = "Action";
+    thAction.style.border = "2px solid black";
     tr.appendChild(thAction);
   }
 

@@ -50,20 +50,26 @@ function displayResearchers(researchers) {
 
   let thName = document.createElement("th");
   thName.innerText = "Name";
+  thName.style.border = "2px solid black";
   let thLastName = document.createElement("th");
   thLastName.innerText = "Last name";
+  thLastName.style.border = "2px solid black";
   let thRole = document.createElement("th");
   thRole.innerText = "Role";
+  thRole.style.border = "2px solid black";
   let thEmail = document.createElement("th");
   thEmail.innerText = "Email";
+  thEmail.style.border = "2px solid black";
   let thPhoneNumber = document.createElement("th");
   thPhoneNumber.innerText = "Phone number";
+  thPhoneNumber.style.border = "2px solid black";
 
   tr.append(thName, thLastName, thRole, thEmail, thPhoneNumber);
 
   if (jwt) {
     let thAction = document.createElement("th");
     thAction.innerText = "Action";
+    thAction.style.border = "2px solid black";
     tr.appendChild(thAction);
   }
 

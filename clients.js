@@ -50,18 +50,23 @@ function displayClients(clients) {
 
   let thName = document.createElement("th");
   thName.innerText = "Name";
+  thName.style.border = "2px solid black";
   let thPlace = document.createElement("th");
   thPlace.innerText = "Place";
+  thPlace.style.border = "2px solid black";
   let thEmail = document.createElement("th");
   thEmail.innerText = "Email";
+  thEmail.style.border = "2px solid black";
   let thPhoneNumber = document.createElement("th");
   thPhoneNumber.innerText = "Phone number";
+  thPhoneNumber.style.border = "2px solid black";
 
   tr.append(thName, thPlace,  thEmail, thPhoneNumber);
 
   if (jwt) {
     let thAction = document.createElement("th");
     thAction.innerText = "Action";
+    thAction.style.border = "2px solid black";
     tr.appendChild(thAction);
   }
 
