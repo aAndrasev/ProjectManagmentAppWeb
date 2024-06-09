@@ -43,7 +43,7 @@ function displayProjects(projects) {
   table.classList.add("table", "table-striped", "table-sm");
 
   let thead = document.createElement("thead");
-  thead.style.backgroundColor = "#5ced73";
+  thead.style.backgroundColor = "#5D7050";
   thead.classList.add("text-center");
   thead.style.borderBottom = "2px solid black";
   let tr = document.createElement("tr");
@@ -108,14 +108,14 @@ function displayProjects(projects) {
       deleteButton.innerText = "Delete";
       deleteButton.type = "button";
       deleteButton.id = x.id;
-      deleteButton.classList.add("btn", "btn-danger");
+      deleteButton.classList.add("btn", "btn-outline-danger");
       deleteButton.addEventListener("click", DeleteProject);
 
       let editButton = document.createElement("button");
       editButton.innerText = "Edit";
       editButton.type = "button";
       editButton.id = x.id;
-      editButton.classList.add("btn", "btn-warning");
+      editButton.classList.add("btn", "btn-outline-info");
       editButton.style.width = "70px"; 
       editButton.addEventListener("click", EditProject);
       
