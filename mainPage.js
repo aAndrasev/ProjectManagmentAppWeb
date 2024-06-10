@@ -14,6 +14,7 @@ function ShowProjectsPage() {
   document.getElementById("side-menu").style.display = "block";
   document.getElementById('projectApp').style.display = 'block';
   document.getElementById('clientApp').style.display = 'none';
+  document.getElementById('phaseApp').style.display = 'none';
   document.getElementById('researcherApp').style.display = 'none';
   HideLoginAndRegisterForms();
   HidePostForms();
@@ -22,6 +23,7 @@ function ShowProjectsPage() {
 function ShowProjectDetailPage(){
   document.getElementById("side-menu").style.display = "block";
   document.getElementById("Projectpostform").style.display="block";
+  document.getElementById("phaseApp").style.display="block";
   HideLoginAndRegisterForms();
   HideAppForms();
 }
@@ -38,7 +40,7 @@ function HideAppForms(){
 function HidePostForms(){
   document.getElementById('Projectpostform').style.display = 'none';
   document.getElementById('Researcherpostform').style.display = 'none';
-  document.getElementById('Clientpostform').style.display = 'none';
+  document.getElementById('Clientpostform').style.display = 'none'; 
 }
 function ShowResearchersPage() {
   HidePostForms();
@@ -147,3 +149,18 @@ function hideClientRefreshButton() {
 window.onload = function() {
   CKEDITOR.replace('projectDescription');
 };
+var modal = document.getElementById("phaseModal");
+
+function DisplayModal() {
+  var modal = document.getElementById("phaseModal"); 
+  modal.style.display = "block";
+}
+function CloseModal() {
+  var modal = document.getElementById("phaseModal"); 
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

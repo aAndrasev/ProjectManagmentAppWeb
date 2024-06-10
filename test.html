@@ -1,0 +1,30 @@
+<!-- Phase Form -->
+                        <div id="Phasepostform" class="col-md-4 mb-2" style="display: none;">
+                            <h2 class="text-center">Adding Phase</h2>
+                            <form>
+                                <input type="number" style="display: none" id="phaseId">
+                                <div class="row mb-2">
+                                    <label for="phaseName" class="col-sm-4 col-form-label">Name:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="phaseName">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="phaseDescription" class="col-sm-4 col-form-label">Description:</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" id="phaseDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="phaseProjectId" class="col-sm-4 col-form-label">Project ID:</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="phaseProjectId">
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <button type="button" class="btn btn-success" onclick="SavePhase()">Save</button>
+                                    <button type="button" class="btn btn-secondary" onclick="ShowPhasesPage()">Cancel</button>
+                                    <button type="button" id="phaseRefreshButton" class="btn btn-info" onclick="Refresh()">Refresh</button>
+                                </div>
+                            </form>
+                        </div>

@@ -266,6 +266,7 @@ function DeleteProject() {
   .then((data) => {
     console.log("Fetched projects: ", data); 
     MapToProject(data);
+    ShowPhases(data.phases);
   })
     .catch((errors) => console.log(errors));
   ShowProjectDetailPage();
@@ -300,3 +301,106 @@ function DeleteProject() {
   document.getElementById("projectPlannedStartDate").value = data.plannedStartDate;
   document.getElementById("projectPlannedEndDate").value = data.plannedEndDate;
  }
+ function AddPhase(){
+
+ }
+ function ShowPhases(phases) {
+  let data = document.getElementById("phaseData");
+  data.innerHTML = "";
+  displayPhases(phases);
+}
+
+function displayPhases(phases) {
+  jwt = localStorage.getItem("jwt");
+  let data = document.getElementById("phaseData");
+  data.innerHTML = ""; 
+  
+  let tableContainer = document.createElement("div");
+  tableContainer.classList.add("table-container");
+
+  let table = document.createElement("table");
+  table.classList.add("table", "table-striped", "table-sm");
+
+  let thead = document.createElement("thead");
+  thead.style.backgroundColor = "#5D7050";
+  thead.classList.add("text-center");
+  thead.style.borderBottom = "2px solid black";
+  let tr = document.createElement("tr");
+
+  let thName = document.createElement("th");
+  thName.innerText = "Name";
+  thName.style.border = "2px solid black";
+  let thDescription = document.createElement("th");
+  thDescription.innerText = "Description";
+  thDescription.style.border = "2px solid black";
+  
+  tr.append(thName, thDescription);
+
+  if (jwt) {
+    let thAction = document.createElement("th");
+    thAction.innerText = "Action";
+    thAction.style.border = "2px solid black";
+    tr.appendChild(thAction);
+  }
+
+  thead.appendChild(tr);
+  table.appendChild(thead);
+
+  let tbody = document.createElement("tbody");
+  tbody.classList.add("custom-border");
+  tbody.style.textAlign = "center";
+  tbody.style.border = "2px solid black";
+
+  if (Array.isArray(phases)) {
+  for (let x of phases) {
+    let tr = document.createElement("tr");
+
+    let tdName = document.createElement("td");
+    tdName.innerText = x.name;
+    tdName.style.border = "2px solid black";
+
+    let tdDescription = document.createElement("td");
+    tdDescription.innerText = x.description;
+    tdDescription.style.border = "2px solid black";
+
+    tr.append(tdName, tdDescription);
+
+    if (jwt) {
+      let tdAction = document.createElement("td");
+      tdAction.classList.add("text-center");
+      tdAction.style.border = "2px solid black";
+      
+      let deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.type = "button";
+      deleteButton.id = x.id;
+      deleteButton.classList.add("btn", "btn-outline-danger");
+      deleteButton.addEventListener("click", DeletePhase);
+
+      let editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.type = "button";
+      editButton.id = x.id;
+      editButton.classList.add("btn", "btn-outline-info");
+      editButton.style.width = "70px"; 
+      editButton.addEventListener("click", EditPhase);
+      
+      tdAction.append(editButton, deleteButton);
+      tr.appendChild(tdAction);
+    }
+    tbody.appendChild(tr);
+  }
+ }
+  table.appendChild(tbody);
+  tableContainer.appendChild(table);
+  data.appendChild(tableContainer);
+}
+function DeletePhase(){
+
+}
+function EditPhase(){
+
+}
+function SavePhase(){
+
+}
