@@ -17,7 +17,7 @@ function GetProjects(request) {
     }
   })
   .then((data) => {
-    console.log("Fetched Projects: ", data); // Log the fetched data
+    console.log("Fetched Projects: ", data); 
     ShowProjects(data);
   })
   .catch((err) => {
@@ -174,6 +174,7 @@ function SaveProject(){
   let plannedStartDate = document.getElementById("projectPlannedStartDate").value;
   let plannedEndDate = document.getElementById("projectPlannedEndDate").value;
   let projectStatus = document.getElementById("projectStatus").value;
+  let phases = getPhasesFromLocalStorage();
   
   let projectModel = {
     id: id,
@@ -184,7 +185,8 @@ function SaveProject(){
     dateOfCreation: dateOfCreation,
     plannedStartDate: plannedStartDate,
     plannedEndDate: plannedEndDate,
-    projectStatusId: projectStatus
+    projectStatusId: projectStatus,
+    phases : phases
   };
 
   if (id != null && id > 0) {
@@ -266,6 +268,7 @@ function DeleteProject() {
   .then((data) => {
     console.log("Fetched projects: ", data); 
     MapToProject(data);
+    localStorage.setItem('projectPhases', JSON.stringify(data.phases));
     ShowPhases(data.phases);
   })
     .catch((errors) => console.log(errors));
@@ -289,20 +292,30 @@ function DeleteProject() {
   ShowProjectDetailPage();
   showProjectRefreshButton();
   Refresh();
+  let data = document.getElementById("phaseData");
+  data.innerHTML = "";
+  ShowPhases(data);
  }
+ function formatDateTimeStringWithMoment(dateTimeString) {
+  const date = moment(dateTimeString);
+  return date.format('YYYY-MM-DDTHH:mm');
+}
  function MapToProject(data){
   document.getElementById("projectId").value = data.id;
   document.getElementById("projectName").value = data.name;
   document.getElementById("projectDescription").value = data.description;
   document.getElementById("projectStatus").value = data.projectStatusId;
-  document.getElementById("projectStartDate").value = data.startDate;
-  document.getElementById("projectEndDate").value = data.endDate;
-  document.getElementById("projectDateOfCreation").value = data.dateOfCreation;
-  document.getElementById("projectPlannedStartDate").value = data.plannedStartDate;
-  document.getElementById("projectPlannedEndDate").value = data.plannedEndDate;
+  document.getElementById("projectStartDate").value = formatDateTimeStringWithMoment(data.startDate);
+  document.getElementById("projectEndDate").value = formatDateTimeStringWithMoment(data.endDate);
+  document.getElementById("projectDateOfCreation").value = formatDateTimeStringWithMoment(data.dateOfCreation);
+  document.getElementById("projectPlannedStartDate").value = formatDateTimeStringWithMoment(data.plannedStartDate);
+  document.getElementById("projectPlannedEndDate").value = formatDateTimeStringWithMoment(data.plannedEndDate);
  }
  function AddPhase(){
-
+  document.getElementById("phaseId").value = 0;
+  document.getElementById("phaseName").value = "";
+  document.getElementById("phaseDescription").value = "";
+  DisplayModal();
  }
  function ShowPhases(phases) {
   let data = document.getElementById("phaseData");
@@ -395,12 +408,55 @@ function displayPhases(phases) {
   tableContainer.appendChild(table);
   data.appendChild(tableContainer);
 }
-function DeletePhase(){
-
+function getPhasesFromLocalStorage() {
+  const phases = localStorage.getItem('projectPhases');
+  console.log("Retrieved phases from local storage:", phases);
+  return phases ? JSON.parse(phases) : [];
 }
-function EditPhase(){
-
+function savePhasesToLocalStorage(phases) {
+  localStorage.setItem('projectPhases', JSON.stringify(phases));
+}
+function DeletePhase(){
+  let phaseId = parseInt(this.id, 10);
+  let phases = getPhasesFromLocalStorage();
+  phases = phases.filter(phase => phase.id !== phaseId);
+  savePhasesToLocalStorage(phases);
+  ShowPhases(phases);
+}
+function getPhaseById(phaseId) {
+  const phases = getPhasesFromLocalStorage();
+  console.log("Parsed phases:", phases);
+  console.log("Looking for phase with ID:", phaseId);
+  return phases.find(phase => phase.id === phaseId) || null;
+}
+function EditPhase() {
+  let phaseId = parseInt(this.id, 10);
+  document.getElementById("phaseId").value = phaseId;
+  console.log("Editing phase with ID:", phaseId);
+  let phase = getPhaseById(phaseId);
+  if (phase) {
+    console.log("Phase found:", phase);
+    document.getElementById("phaseName").value = phase.name;
+    document.getElementById("phaseDescription").value = phase.description;
+  } else {
+    console.log("Phase not found");
+  }
+  DisplayModal();
 }
 function SavePhase(){
-
+  let phaseId = parseInt(document.getElementById("phaseId").value, 10);
+  let phases = getPhasesFromLocalStorage();
+  let newPhaseData = {
+    id: phaseId,
+    name: document.getElementById("phaseName").value,
+    description: document.getElementById("phaseDescription").value
+  };
+  if(phaseId === 0) {
+    phases.push(newPhaseData);
+  } else{
+    phases = phases.map(phase => phase.id === phaseId ? { ...phase, ...newPhaseData } : phase);
+  }
+  savePhasesToLocalStorage(phases);
+  ShowPhases(phases);
+  CloseModal();
 }

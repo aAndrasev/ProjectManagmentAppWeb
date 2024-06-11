@@ -49,6 +49,7 @@ function ShowResearchersPage() {
   document.getElementById('clientApp').style.display = 'none';
   document.getElementById('projectApp').style.display = 'none';
   document.getElementById('researcherApp').style.display = 'block';
+  document.getElementById('phaseApp').style.display = 'none';
   GetResearchers(new Object());
 }
 function ShowResearcherDetailPage(){
@@ -65,6 +66,7 @@ function ShowClientsPage() {
   document.getElementById('projectApp').style.display = 'none';
   document.getElementById('clientApp').style.display = 'block';
   document.getElementById('researcherApp').style.display = 'none';
+  document.getElementById('phaseApp').style.display = 'none';
   GetClients(new Object());
 }
 function ShowClientDetailPage(){
@@ -80,7 +82,7 @@ function ShowLoginForm() {
   document.getElementById('projectApp').style.display = 'none';
   document.getElementById('Projectpostform').style.display = 'none';
   document.getElementById('loginRegisterButtons').style.display = 'none';
-  
+  document.getElementById('phaseApp').style.display = 'none';
 }
 
 function ShowRegisterForm() {
