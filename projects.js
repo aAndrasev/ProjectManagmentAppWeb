@@ -274,6 +274,7 @@ function DeleteProject() {
     .catch((errors) => console.log(errors));
   ShowProjectDetailPage();
   hideProjectRefreshButton();
+  document.getElementById('projectPostformTextName').textContent = "Edit project";
  }
  function SearchProject() {
   
@@ -292,6 +293,7 @@ function DeleteProject() {
   ShowProjectDetailPage();
   showProjectRefreshButton();
   Refresh();
+  document.getElementById('projectPostformTextName').textContent = 'Add Project';
   let data = document.getElementById("phaseData");
   data.innerHTML = "";
   ShowPhases(data);

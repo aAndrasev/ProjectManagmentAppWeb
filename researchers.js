@@ -54,6 +54,9 @@ function displayResearchers(researchers) {
   let thLastName = document.createElement("th");
   thLastName.innerText = "Last name";
   thLastName.style.border = "2px solid black";
+  let thTitle = document.createElement("th");
+  thTitle.innerText = "Title";
+  thTitle.style.border = "2px solid black";
   let thRole = document.createElement("th");
   thRole.innerText = "Role";
   thRole.style.border = "2px solid black";
@@ -64,7 +67,7 @@ function displayResearchers(researchers) {
   thPhoneNumber.innerText = "Phone number";
   thPhoneNumber.style.border = "2px solid black";
 
-  tr.append(thName, thLastName, thRole, thEmail, thPhoneNumber);
+  tr.append(thName, thLastName,thTitle, thRole, thEmail, thPhoneNumber);
 
   if (jwt) {
     let thAction = document.createElement("th");
@@ -94,8 +97,12 @@ function displayResearchers(researchers) {
     tdLastName.style.border = "2px solid black";
 
     let tdTitle = document.createElement("td");
-    tdTitle.innerText = x.researcherRoleName;
+    tdTitle.innerText = x.title;
     tdTitle.style.border = "2px solid black";
+
+    let tdRole = document.createElement("td");
+    tdRole.innerText = x.researcherRoleName;
+    tdRole.style.border = "2px solid black";
 
     let tdEmail = document.createElement("td");
     tdEmail.innerText = x.email;
@@ -105,7 +112,7 @@ function displayResearchers(researchers) {
     tdPhoneNumber.innerText = x.phoneNumber;
     tdPhoneNumber.style.border = "2px solid black";
 
-    tr.append(tdName, tdLastName, tdTitle, tdEmail, tdPhoneNumber);
+    tr.append(tdName, tdLastName, tdTitle, tdRole, tdEmail, tdPhoneNumber);
 
     if (jwt) {
       let tdAction = document.createElement("td");
@@ -268,24 +275,26 @@ function DeleteResearcher() {
     .catch((errors) => console.log(errors));
   ShowResearcherDetailPage();
   hideResearcherRefreshButton();
+  document.getElementById('researcherPostformTextName').textContent = 'Edit researcher';
  }
  function SearchResearcher() {
   
   let searchFieldInput = document.getElementById("researcherSearchFieldInput");
   let researcherRoleId = document.getElementById("researcherRoleId");   
-    let body = {
-      researcherRoleId: researcherRoleId.value,
-      searchTerm: searchFieldInput.value
-    };
+  let body = {
+    researcherRoleId: researcherRoleId.value,
+    searchTerm: searchFieldInput.value
+  };
 
-    let filteredResearchers = GetResearchers(body);
-    displayResearchers(filteredResearchers);
+  let filteredResearchers = GetResearchers(body);
+  displayResearchers(filteredResearchers);
  }
  function AddResearcher() {
   GetResearcherRoles('researcherRoleEdit');
   Refresh();
   ShowResearcherDetailPage();
   showResearcherRefreshButton();
+  document.getElementById('researcherPostformTextName').textContent = 'Add researcher';
  }
  function MapToResearcher(data){
   document.getElementById("researcherId").value = data.id;

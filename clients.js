@@ -259,6 +259,7 @@ function DeleteClient() {
     .catch((errors) => console.log(errors));
   ShowClientDetailPage();
   hideClientRefreshButton();
+  document.getElementById('clientPostformTextName').textContent = 'Edit client';
  }
  function SearchClient() {
   let searchClientFieldInput = document.getElementById("searchClientFieldInput"); 
@@ -273,6 +274,7 @@ function DeleteClient() {
   Refresh();
   ShowClientDetailPage();
   showClientRefreshButton();
+  document.getElementById('clientPostformTextName').textContent = 'Add client';
  }
  function MapToClient(data){
   document.getElementById("clientName").value = data.name;
