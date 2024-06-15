@@ -15,6 +15,8 @@ function ShowProjectsPage() {
   document.getElementById('projectApp').style.display = 'block';
   document.getElementById('clientApp').style.display = 'none';
   document.getElementById('phaseApp').style.display = 'none';
+  document.getElementById("researcherToProjectApp").style.display="none";
+  document.getElementById("clientToProjectApp").style.display="none";
   document.getElementById('researcherApp').style.display = 'none';
   HideLoginAndRegisterForms();
   HidePostForms();
@@ -24,6 +26,8 @@ function ShowProjectDetailPage(){
   document.getElementById("side-menu").style.display = "block";
   document.getElementById("Projectpostform").style.display="block";
   document.getElementById("phaseApp").style.display="block";
+  document.getElementById("researcherToProjectApp").style.display="block";
+  document.getElementById("clientToProjectApp").style.display="block";
   HideLoginAndRegisterForms();
   HideAppForms();
 }
@@ -50,6 +54,8 @@ function ShowResearchersPage() {
   document.getElementById('projectApp').style.display = 'none';
   document.getElementById('researcherApp').style.display = 'block';
   document.getElementById('phaseApp').style.display = 'none';
+  document.getElementById("researcherToProjectApp").style.display="none";
+  document.getElementById("clientToProjectApp").style.display="none";
   GetResearchers(new Object());
 }
 function ShowResearcherDetailPage(){
@@ -165,4 +171,22 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+function DisplayResearcherModal() {
+  var modal = document.getElementById("researcherToProjectModal"); 
+  modal.style.display = "block";
+  GetResearchersSelect(new Object(), "researcherSelect"); 
+}
+function CloseResearcherModal() {
+  var modal = document.getElementById("researcherToProjectModal"); 
+  modal.style.display = "none";
+}
+
+function DisplayClientModal() {
+  var modal = document.getElementById("clientToProjectModal"); 
+  modal.style.display = "block";
+}
+function CloseClientModal() {
+  var modal = document.getElementById("clientToProjectModal"); 
+  modal.style.display = "none";
 }
