@@ -176,6 +176,7 @@ function SaveProject(){
   let projectStatus = document.getElementById("projectStatus").value;
   let phases = getPhasesFromLocalStorage();
   let researchers = getResearchersToProjectFromLocalStorage();
+  let clients = getClientsToProjectFromLocalStorage();
   
   let projectModel = {
     id: id,
@@ -188,7 +189,8 @@ function SaveProject(){
     plannedEndDate: plannedEndDate,
     projectStatusId: projectStatus,
     phases : phases,
-    projectResearchers : researchers
+    projectResearchers : researchers,
+    projectCLients : clients
   };
 
   if (id != null && id > 0) {
@@ -307,6 +309,7 @@ function DeleteProject() {
   //ShowClientsToProject(dataClient);
   localStorage.removeItem('projectPhases');
   localStorage.removeItem('researchersToProject');
+  localStorage.removeItem('clientsToProject');
  }
  function formatDateTimeStringWithMoment(dateTimeString) {
   const date = moment(dateTimeString);
@@ -474,6 +477,7 @@ function SavePhase(){
   ShowPhases(phases);
   CloseModal();
 }
+// RESEARCHER TO PROJECT //
 function AddResearcherToProject(){
   document.getElementById("researcherToProjectId").value = 0;
   document.getElementById("researcherSelect").value = 0;
@@ -692,4 +696,244 @@ function EditResearcherToProject(){
     console.log("Researcher not found");
   }
   DisplayResearcherModal();
+}
+// CLIENT TO PROJECT //
+function AddClientToProject(){
+  document.getElementById("clientToProjectId").value = 0;
+  document.getElementById("clientSelect").value = 0;
+  document.getElementById("clientToProjectContactName").value = "";
+  document.getElementById("clientToProjectContactLastName").value = "";
+  document.getElementById("clientToProjectContactEmail").value = "";
+  document.getElementById("clientToProjectContactPhoneNumber").value = "";
+  DisplayClientModal();
+ }
+ function GetClientsSelect(request,elementId){
+  fetch(clientsroute + "/getall", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Auth(),
+    },
+    method: "POST",
+    body: JSON.stringify(request),
+  })
+  .then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(res);
+    }
+  })
+  .then((data) => {
+    console.log("Fetched clients: ", data); 
+    ShowClientsSelect(data,elementId);
+    
+  })
+  .catch((err) => {
+    console.error("Error fetching clients:", err);
+  });  
+}
+ function ShowClientsSelect(clients, elementId) {
+  let select = document.getElementById(elementId);
+ 
+  
+if (select.children.length === 0) {  
+  let allOption = document.createElement("option");
+  allOption.text = "Show All";
+  allOption.value = 0;
+  select.appendChild(allOption);
+
+  for (const x of clients) {
+    let option = document.createElement("option");
+    option.innerText = x.name;
+    option.value = x.id;
+    select.appendChild(option);
+  }
+}
+}
+function ShowClientsToProject(clients){
+  let data = document.getElementById("clientToProjectData");
+  data.innerHTML = "";
+  displayClientsToProject(clients);
+}
+
+function displayClientsToProject(clients) {
+  jwt = localStorage.getItem("jwt");
+  let data = document.getElementById("clientToProjectData");
+  data.innerHTML = ""; 
+  
+  let tableContainer = document.createElement("div");
+  tableContainer.classList.add("table-container");
+
+  let table = document.createElement("table");
+  table.classList.add("table", "table-striped", "table-sm");
+
+  let thead = document.createElement("thead");
+  thead.style.backgroundColor = "#5D7050";
+  thead.classList.add("text-center");
+  thead.style.borderBottom = "2px solid black";
+  let tr = document.createElement("tr");
+
+  let thName = document.createElement("th");
+  thName.innerText = "Name";
+  thName.style.border = "2px solid black";
+  let thContactName = document.createElement("th");
+  thContactName.innerText = "Contact name";
+  thContactName.style.border = "2px solid black";
+  let thContactLastName = document.createElement("th");
+  thContactLastName.innerText = "Contact last name";
+  thContactLastName.style.border = "2px solid black";
+  let thContactEmail = document.createElement("th");
+  thContactEmail.innerText = "Contact email";
+  thContactEmail.style.border = "2px solid black";
+  let thContactPhoneNumber = document.createElement("th");
+  thContactPhoneNumber.innerText = "Contact phone number";
+  thContactPhoneNumber.style.border = "2px solid black";
+  
+  tr.append(thName, thContactName, thContactLastName,thContactEmail,thContactPhoneNumber);
+
+  if (jwt) {
+    let thAction = document.createElement("th");
+    thAction.innerText = "Action";
+    thAction.style.border = "2px solid black";
+    tr.appendChild(thAction);
+  }
+
+  thead.appendChild(tr);
+  table.appendChild(thead);
+
+  let tbody = document.createElement("tbody");
+  tbody.classList.add("custom-border");
+  tbody.style.textAlign = "center";
+  tbody.style.border = "2px solid black";
+
+  if (Array.isArray(clients)) {
+  for (let x of clients) {
+    let tr = document.createElement("tr");
+
+    let tdName = document.createElement("td");
+    tdName.innerText = x.name;
+    tdName.style.border = "2px solid black";
+
+    let tdContactName = document.createElement("td");
+    tdContactName.innerText = x.contactName;
+    tdContactName.style.border = "2px solid black";
+
+    let tdContactLastName = document.createElement("td");
+    tdContactLastName.innerText = x.contactLastName;
+    tdContactLastName.style.border = "2px solid black";
+
+    let tdContactEmail = document.createElement("td");
+    tdContactEmail.innerText = x.contactEmail;
+    tdContactEmail.style.border = "2px solid black";
+    
+    let tdContactPhoneNumber = document.createElement("td");
+    tdContactPhoneNumber.innerText = x.contactPhoneNumber;
+    tdContactPhoneNumber.style.border = "2px solid black";
+
+
+    tr.append(tdName, tdContactName, tdContactLastName, tdContactEmail, tdContactPhoneNumber);
+
+    if (jwt) {
+      let tdAction = document.createElement("td");
+      tdAction.classList.add("text-center");
+      tdAction.style.border = "2px solid black";
+      
+      let deleteButton = document.createElement("button");
+      deleteButton.innerText = "Delete";
+      deleteButton.type = "button";
+      deleteButton.id = x.clientId;
+      deleteButton.classList.add("btn", "btn-outline-danger");
+      deleteButton.addEventListener("click", DeleteClientToProject);
+
+      let editButton = document.createElement("button");
+      editButton.innerText = "Edit";
+      editButton.type = "button";
+      editButton.id = x.clientId;
+      editButton.classList.add("btn", "btn-outline-info");
+      editButton.style.width = "70px"; 
+      editButton.addEventListener("click", EditClientToProject);
+      
+      tdAction.append(editButton, deleteButton);
+      tr.appendChild(tdAction);
+    }
+    tbody.appendChild(tr);
+  }
+ }
+  table.appendChild(tbody);
+  tableContainer.appendChild(table);
+  data.appendChild(tableContainer);
+}
+function getClientsToProjectFromLocalStorage(){
+  const clientsToProject = localStorage.getItem('clientsToProject');
+  console.log("Retrieved Clients from local storage:", clientsToProject);
+  return clientsToProject ? JSON.parse(clientsToProject) : [];
+}
+function saveClientsToProjectLocalStorage(clientsToProject){
+  localStorage.setItem('clientsToProject', JSON.stringify(clientsToProject));
+}
+function SaveClientToProject(){
+  let clientToProjectId = parseInt(document.getElementById("clientToProjectId").value, 10);
+  let clientSelect = document.getElementById("clientSelect"); 
+  let clientId = parseInt(document.getElementById("clientSelect").value, 10);
+  // let researcherRoleId = parseInt(document.getElementById("researcherRoleSelect").value, 10);
+  let selectedOption = null;
+  let clientName = null;
+  for (let i = 0; i < clientSelect.options.length; i++) {
+    if (parseInt(clientSelect.options[i].value, 10) === clientId) {
+      selectedOption = clientSelect.options[i];
+      break;
+    }
+  }
+  if(selectedOption){
+    clientName = selectedOption.textContent;
+  }
+  let clientsToProject = getClientsToProjectFromLocalStorage();
+  let newClientToProjectData = {
+    projectId: clientToProjectId,
+    name: clientName,
+    clientId: parseInt(clientId, 10),
+    contactName: document.getElementById("clientToProjectContactName").value,
+    contactLastName: document.getElementById("clientToProjectContactLastName").value,
+    contactEmail: document.getElementById("clientToProjectContactEmail").value,
+    contactPhoneNumber: parseInt(document.getElementById("clientToProjectContactPhoneNumber").value, 10)
+    // researcherRoleId : researcherRoleId
+  };
+  if(researcherToProjectId === 0) {
+    clientsToProject.push(newClientToProjectData);
+  } else{
+    clientsToProject = clientsToProject.map(clientsToProject => clientsToProject.clientId === clientToProjectId ? { ...clientsToProject, ...newClientToProjectData } : clientsToProject);
+  }
+  saveClientsToProjectLocalStorage(clientsToProject);
+  ShowClientsToProject(clientsToProject);
+  CloseClientModal();
+}
+function DeleteClientToProject(){
+  let clientToProjectId = parseInt(this.id, 10);
+  let clients = getClientsToProjectFromLocalStorage();
+  clients = clients.filter(clients => clients.clientId !== clientToProjectId);
+  saveClientsToProjectLocalStorage(clients);
+  ShowClientsToProject(clients);
+}
+function getClientToProjectById(clientToProjectId) {
+  const clientToProject = getClientsToProjectFromLocalStorage();
+  console.log("Parsed clients:", clientToProject);
+  console.log("Looking for client with ID:", clientToProjectId);
+  return clientToProject.find(clientToProject => clientToProject.clientId === clientToProjectId) || null;
+}
+function EditClientToProject(){
+  let clientToProjectId = parseInt(this.id, 10);
+  document.getElementById("clientToProjectId").value = clientToProjectId;
+  console.log("Editing client with ID:", clientToProjectId);
+  let clientToProject = getClientToProjectById(clientToProjectId);
+  if (clientToProject) {
+    console.log("Client found:", clientToProject);
+    document.getElementById("clientSelect").value = clientToProject.clientId;
+    document.getElementById("clientToProjectContactName").value = clientToProject.contactName;
+    document.getElementById("clientToProjectContactLastName").value = clientToProject.contactLastName;
+    document.getElementById("clientToProjectContactEmail").value = clientToProject.contactEmail;
+    document.getElementById("clientToProjectContactPhoneNumber").value = clientToProject.contactPhoneNumber;
+  } else {
+    console.log("Client not found");
+  }
+  DisplayClientModal();
 }

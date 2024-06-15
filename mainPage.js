@@ -185,6 +185,7 @@ function CloseResearcherModal() {
 function DisplayClientModal() {
   var modal = document.getElementById("clientToProjectModal"); 
   modal.style.display = "block";
+  GetClientsSelect(new Object(), "clientSelect"); 
 }
 function CloseClientModal() {
   var modal = document.getElementById("clientToProjectModal"); 
