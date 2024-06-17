@@ -898,7 +898,7 @@ function SaveClientToProject(){
     contactPhoneNumber: parseInt(document.getElementById("clientToProjectContactPhoneNumber").value, 10)
     // researcherRoleId : researcherRoleId
   };
-  if(researcherToProjectId === 0) {
+  if(clientToProjectId === 0) {
     clientsToProject.push(newClientToProjectData);
   } else{
     clientsToProject = clientsToProject.map(clientsToProject => clientsToProject.clientId === clientToProjectId ? { ...clientsToProject, ...newClientToProjectData } : clientsToProject);
