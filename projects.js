@@ -274,6 +274,10 @@ function DeleteProject() {
     MapToProject(data);
     localStorage.setItem('projectPhases', JSON.stringify(data.phases));
     ShowPhases(data.phases);
+    localStorage.setItem('researchersToProject', JSON.stringify(data.projectResearchers));
+    ShowResearchersToProject(data.projectResearchers);
+    localStorage.setItem('clientsToProject', JSON.stringify(data.projectClients));
+    ShowClientsToProject(data.projectClients);
   })
     .catch((errors) => console.log(errors));
   ShowProjectDetailPage();
